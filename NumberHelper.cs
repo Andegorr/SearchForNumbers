@@ -1,24 +1,31 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Text.RegularExpressions; 
 
-namespace SearchForNumbers1
+namespace SearchinGFoRNumbers
 {
-    public class NumberHelper
+    internal class NumberHelper
     {
-        public static List<int> FindNumbers(string inputText)
+        public static List<int> ExtractNumbers(string text)
         {
-            List<int> numbers = new List<int>();
+            // Use a regular expression to match both positive and negative integers
+            MatchCollection matches = Regex.Matches(text, @"[-+]?\d+");
 
-            string pattern = @"\b\d+\b"; // Регулярное выражение для поиска чисел
-            MatchCollection matches = Regex.Matches(inputText, pattern);
+            List<int> numbers = new List<int>();
 
             foreach (Match match in matches)
             {
-                numbers.Add(int.Parse(match.Value));
+                if (int.TryParse(match.Value, out int number))
+                {
+                    numbers.Add(number);
+                }
             }
 
             return numbers;
         }
+      
     }
 }
